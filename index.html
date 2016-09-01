@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="code/prism.css" data-noprefix="">
+</head>
+<style>
+.infa {
+    padding: 40px 0px;
+}
+.tag {
+    font-size: 21px;
+    color: crimson;
+}
+</style>
+
+<body>
+<dvi id="content">
+
+<h1>Немного о Git</h1>
+
+
+<div class="container">
+
+<h2>Краткое вступление</h2>
+	<p class="text">
+	  <span class="tag">Установить gitk </span>для просмотра истории комитов и веток <br> И
+	  <span class="tag"> apt-get install kdiff3 </span>  для решения конфликтов в ветках merge.tool kdiff3
+ </p> 
+ <p>
+ 			Если добавлять файлы под версионный контроль, то стоит их индексировать
+		и осуществить первую фиксацию. 
+ </p>
+
+ 	<p class="text">
+ 		Создать свой git catalog или скопировать имеющийся на github.com
+ 	</p>
+
+<pre><code class="language-git">git init 
+git clone git://github.com/Yegoroot/12
+</code></pre>
+	
+	<p  class="text">
+		Добавить под версионный контроль - если файлы не отслеживаемые или проиндексировать измененные файл / файлы. И за Commit ить почему бы и не сразу.
+	</p>
+
+<pre><code class="language-git">git add file
+git add * 
+git commit -m '1commit'
+
+// или без индексирования
+git commit -a -m "commit propusk inexirovanie"
+</code></pre>
+
+<div class="infa">
+	GIT файлы могут находится в отслеживаемом состоянии и неотслеживаеммом. Отслеживаемые файлы могут быть в состяниях:
+	<ul>
+		<li>зафиксированном</li>
+		<li>измененном</li>
+		<li>подготовленном</li>
+	</ul>
+
+	<p>
+		Зафиксированные это те файлы которые сохранены в локальной базе
+	</p>
+	<p>
+		Измененные это те файлы которые изменены но еще не проиндексированны
+	</p>
+	<p>
+		Подготовленные это файлы которые подготовленны для <span class="teg">commit</span>  
+	</p>
+</div>
+
+</div>	
+
+
+<div class="container">
+	
+<h3>Определение состояния</h3>
+<pre><code class="language-git">git status</code></pre>
+<h3>Отмена изминений</h3>
+<pre><code class="language-git">git reset file</code></pre>
+<h3>Навигация (выбор состояния) к / tag / commit / branch / hashCODE</h3>
+<pre><code class="language-git">git checkout</code></pre>
+<h3>Перемещение файлов</h3>
+<pre><code class="language-git">mkdir lib
+git mv index.php lib
+git status
+</code></pre>
+<h3>Удаление файлов</h3>
+<pre><code class="language-git">git rm -f //  эта команда попадает в индекс
+git rm --cashed fileName // удалить файл из индекса
+</code></pre>
+
+
+</div>	
+<div class="container">
+	<div class="infa">
+		<h2>Изминения а не файлы</h2>
+		<p>
+			Git фокусируется на изминениях в файле, а не на самом файле.
+			Когда вы осуществляете команду <span class="teg">git add file</span>, вы не говорите git добавить файл в репозиторий. Скорее вы говорите что git надо отметить текущее состояние файла, коммит которого будет произвиден позже.
+		</p>
+
+	</div>
+
+</div>
+
+
+<div class="container">
+<div class="infa">
+<h2>Смотреть изменения</h2>
+<pre><code class="language-git">git diff nameFile
+git diff 
+git diff --staged   // Сравнивает проиндексированные и файлы последнего коммита
+</code></pre> 
+<h3>git_difftool для просмотра diff</h3>
+</div>
+</div>
+
+
+<div class="container">
+<div class="infa">
+<h2>Отмена операция</h2>
+<p>
+	Не все операции отмены можно в свою очередь отменить! Эта одна из редких областей git где 
+	неверными действиями можно необратимо удалить результаты работы
+</p>
+<h3>Дополнить Commit</h3>
+<p>Например забыли добавить информацию в файл, но успели сделать commit</p>
+<pre><code class="language-git">git commit -m "initial"
+git add forgotter_file
+git commit --amend -a -m "initial opa4ki"
+</code></pre> 
+
+</div>
+</div>
+
+
+<div class="container">
+<div class="infa">
+	<h2>Создание тегов версий</h2>
+	<pre><code class="language-git">git tag v1</code></pre>	
+	<p>
+		Теперь текущая версия страницы называется V1
+	</p>
+	<h3>Теги для предыдущих версий</h3>
+	<p>
+		Создадим тег для версии которая идет перед текущей версией и назовем ее V1-beta. В первую очередь нам надо переключится на предыдущую версию. Вместо поиска до хеш. Мы будем использовать ^, обозначающая "Родитель". Если обозначение V1^ вызывает проблеммы то можно V1~1 указывающее на ту же версию. Это обозначение можно определить как "первую версию предшествующую V1". 
+	</p>
+	<p>Если с начала то выглядеть это будет так</p>
+<pre><code class="language-git">git tag v1
+git checkout v1^
+git checkout v1-beta
+</code></pre>	
+<p>
+	То есть мы создали тег v1, переключились на предшествующий командой и создали на предшествующем V1-beta. <br> <span class="tag">Переключатся между тегами</span> можно командами <span class="tag"> checkout v1</span>
+</p>
+</div>
+
+</div>
+
+
+<div class="container">
+<div class="inform">
+<h2>Отмена commit, add, modific file</h2>
+<h3>Отмена изминений до индексации ( отмена изменений измененного файла )</h3>
+<p> (Отмена неподготовленных файлов)
+	Предположим мы изменили файл index.php и не успели проиндексировать тогда откаьтиться до зафиксированной версии нам поможет 
+
+</p>
+<pre><code class="language-git">git checkout index.php
+</code></pre>
+</div>
+<div class="inform">
+<h3>Отмена проиндексированных изменений</h3>
+<p>
+	Предположим мы изменили и проиндексировали файл index.php откатиться до измененной версии нам поможет 
+
+</p>
+<pre><code class="language-git">git reset HEAD index.php
+</code></pre>
+</div>
+<div class="inform">
+<h3>Отмена Commit</h3>
+<p>Отменяем commit в локальном репозитории. </p>
+<pre><code class="language-git">git add index.php
+git commit -m "oops, otmena"
+</code></pre>
+	<p>  Итак мы сделали коммит и 
+	 теперь нам нужно отменить его. Создаем commit отменяющий предыдущий (--no-edit - это не открывать редактор для записи нового комментария)</p>
+<pre><code class="language-git">git revert HEAD --no-edit
+</code></pre>
+<p>
+	Проверяем лог
+</p>
+<pre><code class="language-git">git hist
+</code></pre>
+</div>
+
+<div class="inform">
+<h3>Удаляем commit из ветки</h3>
+<p>Удалем ПОСЛЕДНИЙ commit из ветки</p>
+<p><span class="tag">Revert </span> является мощной командой, которая позволяет отменить любые коммиты в репозиторий. Однако, оригинальные и "отмененные" коммиты видны в ветке истории <span class="tag"> git log</span></p>
+<p>
+	Команда <span class="tag">reset </span> используется для согласования буферной зоны и выбранного коммита <span class="tag">HEAD</span>
+</p>
+<p>
+	<ul>
+		<li>Перепишем некую ветку, чтоб она указывала на нужный нам коммит</li>
+		<li>Опционально сбросит буферную зону зону для соответствия с указаннм commit</li>
+		<li>Опционально сбросит рабочий каталог для соответсвия с указанным commit ом</li>
+	</ul>
+</p>
+
+<pre><code class="language-git">git hist
+git tag oops
+</code></pre>
+	<p> 
+		Прежде чем удалять отмети тегом, чтоб его потом можно было найти
+	</p>
+	<h4>Сброс коммитов к предшествующему коммиту Oops</h4>
+<pre><code class="language-git">git reset --hard v1  // или hash
+git hist
+</code></pre>
+<p>
+	Глядя на историю лога, мы видем, что коммит с тегом "V1" (или если нет тега то ХЭШ)
+	является commitom, предшествующим ошибочному коммиту.
+</p>
+<p>
+	Сбросим ветку до этой точки. Поскольку ветка имеет тег мы можем использовать имя тега в команде сброса
+	 А если тега нет то можем использовать ХЭШ значение
+</p>
+<pre><code class="language-git">git hist --all
+// ничего никогда не теряется
+</code></pre>
+<p>
+	Ошибочные коммиты не куда не делись, просто они отсутсвуют в ветке master
+</p>
+</div>
+
+
+<div class="inform">
+<h3>Удаление тега "Oops"</h3>
+<p>
+	Удаление тега - уборкаю.
+</p>
+<pre><code class="language-git">git tag -d oops
+git hist --all
+</code></pre>
+<p>
+	И теперь его нет в репозитории 
+</p>
+</div>
+
+</div>
+
+
+<div class="container">
+<div class="infa">
+<h2> Внесение изменений в коммиты </h2>
+<p>
+	Изменяем существующие коммиты
+</p>
+<pre><code class="language-git">git add index.php
+git commit -m "Add and edit commit"
+</code></pre>
+<p>
+	А теперь мы понимем, что необходимо еще добавить инфу и мы редактируем опять файл
+</p>
+<pre><code class="language-git">git add index.php
+git commit --amend -m "new comment"
+</code></pre>
+<p>
+	Этого эффекта можно достич сбросом коммита и нового commit.
+</p>
+</div>
+</div>
+
+
+
+
+<div class="container">
+<div class="infa">
+<h2> Ветки </h2>
+
+<h3>Создание ветки</h3>
+<p>
+	Создать можно двумя способами <span class="tag">git branch nameBranch</span>
+ и <span class="tag">git checkout -b nameBranch</span> только во втором способе мы сразу 
+ переходим на созданную ветку
+ </p>
+<pre><code class="language-git">git checkout -b nameBranch
+git branch nameBranch
+</code></pre>
+
+<h3>Навигация по веткам</h3>
+<pre><code class="language-git">git checkout master
+</code></pre>
+
+
+<h3>Просмотр отличающиеся ветки</h3>
+<pre><code class="language-git">git hist --all
+</code></pre>
+
+
+<h3>Merge branch</h3>
+<pre><code class="language-git">sudo apt-get install kdiff3
+git config --global merge.tool kdiff3
+</code></pre>
+<p></p>
+<pre><code class="language-git">git checkout nameBranch
+git merge master
+// если возникли ошибки то 
+git mergetool
+</code></pre>
+<p></p>
+<pre><code class="language-git">git commit
+git hist --all
+git branch -v // просмотр веток с последними коммитами
+</code></pre>
+<p>
+	Путем переодического слияния ветки мастер с  nameBtranch вы можете переносить из master любые изменения
+	и поддерживать совместимость изменений nameBranch с изменениями  master. 
+</p>
+
+</div>
+</div>
+
+
+
+<div class="container">
+<div class="infa">
+<h2>Удаленный репозиторий</h2>
+<p>
+	Создадим репозиторий на github.com
+</p>
+<h3>Отображение настроенных серверов</h3>
+<pre><code class="language-git">git remote
+</code></pre>
+<p>
+	Чтобы посмотреть какому url соответсвует сокращенное имя в git нужно указать 
+</p>
+<pre><code class="language-git">git remote -v
+</code></pre>
+<h3>На GitHub.com</h3>
+<pre><code class="language-git">git remote add origin // вместо origin можно использовать свое имя
+https://github.com/Yegoroot/12
+git push -u origin master
+git push -u origin nameBranch
+
+git pull // получить репозиторий 
+</code></pre>
+<p>
+	
+</p>
+<pre><code class="language-git">git config --global push.default matching // ты Помнишь
+</code></pre>
+</div>
+</div>
+
+
+
+
+<div class="container">
+<div class="infa">
+<h2>Трансплантация истории</h2>
+<p>
+	Паралельное внесение изменений а основную ветку репозитория и отдельную ветку
+</p>
+<p>
+	Исходные данные <span class="tag">a-b-c </span> ветка bug1 с изменениями d т.е <span class="tag">a-b-c-d</span>
+</p>
+<p>
+	Мы работали над блогом, а кто то другой успел реализовать какую нибудь другую фичу и пропихнуть ее 
+	в основной репозиторий теперь после <span class="tag">checkout master, git pull</span> мы получаем <span class="tag">a-b-c-e</span>, если выполнить <span class="tag">git marge bug1</span>, то получим историю изменений раздваивающуюся
+	после коммита <span class="tag">c</span> на 2 ветки и заканчивающуюся автоматическим слиянием веток, родителями этого
+	<span class="tag">merge commita </span> будут ревизии E (Из Master и из bug1). Избежать подобной ветвлистости
+	помогает <span class="tag">git rebase</span>
+</p> 
+<pre><code class="language-git">git checkout bug1 // перекл. на ветку bug1
+git rebase master // Пересадить историю изменений
+</code></pre>
+<span class="tag">ТЕПЕРЬ a-b-c-e-d</span>
+<p>
+	Имея в mastere историю a-b-c-e, а в ветке bug1 историю a-b-c-e-d несложно выполнить <span class="tag">fast-forward-merge</span> сохранив "Прямую" историю без ненужных ветвлений
+</p>
+<pre><code class="language-git">git checkout master
+git merge bug1
+</code></pre>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+	<div class="infa">
+		<h2> File config</h2>			
+<pre><code class="language-git">[alias]
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+[push]
+	default = matching
+[merge]
+	tool = kdiff3
+[core]
+	editor = subl
+</code></pre>
+
+
+	</div>
+
+</div>
+
+
+
+
+</dvi>
+
+<script src="code/prism.js"></script>
+</body>
+</html> 
