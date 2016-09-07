@@ -1,5 +1,5 @@
 body {margin: 0; font-family: arial, verdana, sans-serif; background: #f3f3f3;}
-ul,li {margin: 0; padding: 0; list-style: none;}
+#sidebar-menu ul,#sidebar-menu li {margin: 0; padding: 0; list-style: none;}
 a, a:hover {text-decoration: none;}
 .wrapper {
     /* position: relative; */
@@ -22,13 +22,14 @@ a, a:hover {text-decoration: none;}
     padding: 10px;
     background: #323A45;
     color: #FFF;
+        z-index: 1;
     border-radius: 8px 0px 0px 8px;
 }
 #sidebar-menu li {position: relative; cursor: pointer;}
 #sidebar-menu li i {width: 27px; height: 27px; line-height: 27px; border-radius: 4px; background: #3CB7E7; text-align: center;}
 
 #sidebar-menu li+li {margin-top: 4px;}
-#sidebar-menu b {display: none; opacity: 0; position: absolute; left: 27px; top: 0; height: 27px; width: 16px; line-height: 27px; background: transparent; color: #323A45; text-align: right;}
+#sidebar-menu b {display: none; opacity: 0; position: absolute;     right: 27px; top: 0; height: 27px; width: 16px; line-height: 27px; background: transparent; color: #323A45; text-align: right;}
 
 #sidebar-menu li > ul {display: none; opacity: 0; position: absolute; top: -10px;     right: 42px; width: 120px; padding: 10px; background: #323A45; border-radius: 8px;}
 #sidebar-menu li:hover b,
